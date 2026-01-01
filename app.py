@@ -6,7 +6,7 @@
 # ==========================================================
 
 import streamlit as st
-import psycopg2
+import psycopg
 import hashlib
 import datetime
 import pandas as pd
@@ -16,7 +16,11 @@ import pandas as pd
 # ----------------------------------------------------------
 
 def get_conn():
-    return psycopg2.connect(st.secrets["postgres"]["url"])
+    return psycopg.connect(
+        st.secrets["postgres"]["url"],
+        autocommit=True
+    )
+
 
 # ----------------------------------------------------------
 # SECURITY UTILITIES
@@ -243,3 +247,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
