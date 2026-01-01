@@ -1,6 +1,7 @@
 streamlit
-sqlalchemy
-psycopg2-binary
 pandas
-passlib
-python-dotenv
+numpy
+xlsxwriter
+psycopg2-binary
+
+
