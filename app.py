@@ -20,15 +20,14 @@ from datetime import datetime
 
 APP_TITLE = "PT Suite – Proficiency Testing Platform"
 
-def _resolve_db_url() -> str:
-    try:
-        return st.secrets["postgres"]["url"]
-    except KeyError:
-        raise RuntimeError(
-            "Postgres URL topilmadi. Streamlit Cloud → Secrets bo‘limiga "
-            "[postgres] url = \"...\" qo‘shing."
-        )
-
+# Neon URL uchun fallback constant (agar st.secrets bo'lmasa)
+# ⚠️ Bu URL'ni keyin GitHub'ga qo'ymaganing ma'qul, lekin hozir lokalda ishlashi uchun qoldiryapman.
+POSTGRES_URL = (
+    "postgresql://neondb_owner:"
+    "npg_4Xog9qaNzUEZ"
+    "@ep-mute-leaf-ag5jfjwl-pooler.c-2.eu-central-1.aws.neon.tech/"
+    "neondb?sslmode=require&channel_binding=require"
+)
 
 DATA_DIR = Path("pt_suite_data")
 DATA_DIR.mkdir(exist_ok=True)
@@ -1328,4 +1327,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
