@@ -5,8 +5,8 @@
 # Variant A: single-file architecture
 # ==========================================================
 
+from sqlalchemy import create_engine, text
 import streamlit as st
-import psycopg
 import hashlib
 import datetime
 import pandas as pd
@@ -15,11 +15,13 @@ import pandas as pd
 # DATABASE CONNECTION (CLOUD READY)
 # ----------------------------------------------------------
 
-def get_conn():
-    return psycopg.connect(
+@st.cache_resource
+def get_engine():
+    return create_engine(
         st.secrets["postgres"]["url"],
-        autocommit=True
+        pool_pre_ping=True
     )
+
 
 
 # ----------------------------------------------------------
@@ -33,9 +35,10 @@ def hash_password(password: str) -> str:
 # DATABASE INITIALIZATION
 # ----------------------------------------------------------
 
-def init_db():
-    with get_conn() as conn:
-        with conn.cursor() as cur:
+engine = get_engine()
+with engine.begin() as conn:
+    conn.execute(text("SELECT 1"))
+
 
             # USERS & ROLES
             cur.execute("""
@@ -247,4 +250,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
